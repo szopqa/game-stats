@@ -4,8 +4,9 @@
 
 ### Local development
 
-1. `npm i`
-2. `npm run dev`
+1. `nvm use`
+2. `npm i`
+3. `npm run dev`
 
 ### Running unit tests
 

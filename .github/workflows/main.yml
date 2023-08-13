@@ -1,0 +1,13 @@
+name: ✅️ Build and test
+
+on:
+  push:
+    branches:
+      - main
+      - 'feat/*'
+   
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: ./.github/workflows/_unit_test.yml
