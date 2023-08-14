@@ -24,5 +24,5 @@ export type ExternalAPlayer = ExternalAStats & {
 
 export type ExternalATeam = ExternalAStats & {
   id: string;
-  players?: ExternalAPlayer[];
+  players: ExternalAPlayer[];
 };
