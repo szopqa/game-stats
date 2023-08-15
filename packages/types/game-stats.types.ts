@@ -1,20 +1,25 @@
 import { GAME_STATS_PROVIDER } from './game-stats-providers';
 
-type PlayerStatNames =
-  | 'rushAttempts'
-  | 'rushTouchdowns'
-  | 'rushYards'
-  | 'receivingReceptions'
-  | 'receivingYards';
+export const PLAYER_STAT_NAMES = [
+  'rushAttempts',
+  'rushTouchdowns',
+  'rushYards',
+  'receivingReceptions',
+  'receivingYards',
+];
+export type PlayerStatNames = (typeof PLAYER_STAT_NAMES)[number];
 
-type TeamStatNames =
-  | 'rushAttempts'
-  | 'rushTouchdowns'
-  | 'rushYards'
-  | 'receivingReceptions'
-  | 'receivingYards';
+export const TEAM_STAT_NAMES = [
+  'rushAttempts',
+  'rushTouchdowns',
+  'rushYards',
+  'receivingReceptions',
+  'receivingYards',
+];
+export type TeamStatNames = (typeof TEAM_STAT_NAMES)[number];
 
-type GameStatNames = 'attendance';
+export const GAME_STAT_NAMES = ['attendance'];
+export type GameStatNames = (typeof GAME_STAT_NAMES)[number];
 
 type BaseStatistic<StatNames extends string> = {
   statType: STAT_TYPE;
@@ -41,4 +46,14 @@ export type TeamStats = BaseStatistic<TeamStatNames> & {
 export type GameStats = BaseStatistic<GameStatNames> & {
   homeTeamId: string;
   awayTeamId: string;
+};
+
+export const isGameStats = (obj: any): obj is GameStats => {
+  return 'homeTeamId' in obj && 'awayTeamId' in obj;
+};
+export const isTeamStats = (obj: any): obj is TeamStats => {
+  return 'teamId' in obj;
+};
+export const isPlayerStats = (obj: any): obj is PlayerStats => {
+  return 'playerId' in obj && 'teamId' in obj;
 };
