@@ -8,6 +8,7 @@
 2. `npm i`
 3. `npm run dev`
 4. Swagger is available at `http://localhost:3000/api`
+5. App is available at `http://localhost:5173`
 
 ### Running unit tests
 
