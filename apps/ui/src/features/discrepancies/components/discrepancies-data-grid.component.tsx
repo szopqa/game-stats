@@ -1,9 +1,10 @@
 import { Box } from '@mui/material';
 import { DataGrid, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
 import { useState } from 'react';
+import { DiscrepancyRow } from '../mappers/discrepancies-data-grid.mapper';
 
 type DiscrepanciesDataGrid = {
-  rows: any[];
+  rows: DiscrepancyRow[];
   columns: GridColDef[];
   onRowSelected: (selectedRows: GridRowSelectionModel) => void;
 };
