@@ -1,7 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsIn, IsOptional } from 'class-validator';
 import {
-  STAT_TYPE,
   GameStatNames,
   TeamStatNames,
   PlayerStatNames,
@@ -9,14 +8,8 @@ import {
   TeamDiscrepancyMeta,
   PlayerDiscrepancyMeta,
   DiscrepancyValue,
+  DISCREPANCIES_TYPE,
 } from 'types';
-
-export enum DISCREPANCIES_TYPE {
-  PLAYER = STAT_TYPE.PLAYER,
-  TEAM = STAT_TYPE.TEAM,
-  GAME = STAT_TYPE.GAME,
-  ALL = 'ALL',
-}
 
 export class DiscrepanciesQueryDto {
   @ApiPropertyOptional({ default: 'ALL' })

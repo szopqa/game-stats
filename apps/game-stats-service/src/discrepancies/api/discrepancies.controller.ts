@@ -1,11 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import {
-  DISCREPANCIES_TYPE,
-  DiscrepanciesQueryDto,
-  DiscrepancyDto,
-} from '../dto/discrepancies.dto';
+import { DiscrepanciesQueryDto, DiscrepancyDto } from '../dto/discrepancies.dto';
 import { DiscrepanciesService } from '../discrepancies.service';
-import { STAT_TYPE } from 'types';
+import { DISCREPANCIES_TYPE, STAT_TYPE } from 'types';
 
 @Controller('discrepancies')
 export class DiscrepanciesController {
@@ -36,6 +32,8 @@ export class DiscrepanciesController {
       return this.discrepanciesService.getAllDiscrepancies({ gameId });
     }
 
-    return this.discrepanciesService.getDiscrepancies(STAT_TYPE[discrepancyType], { gameId });
+    return this.discrepanciesService.getDiscrepancies(STAT_TYPE[discrepancyType], {
+      gameId,
+    });
   }
 }

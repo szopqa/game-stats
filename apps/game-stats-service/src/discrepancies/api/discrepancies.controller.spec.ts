@@ -3,11 +3,17 @@ import { DiscrepanciesController } from './discrepancies.controller';
 
 import { faker } from '@faker-js/faker';
 import { MockedGameStatsInMemoryRepository } from '../../game-stats/game-stats-repositories/mocked-game-stats-in-memory.repository';
-import { GAME_STATS_PROVIDER, GameStats, PlayerStats, STAT_TYPE, TeamStats } from 'types';
+import {
+  DISCREPANCIES_TYPE,
+  GAME_STATS_PROVIDER,
+  GameStats,
+  PlayerStats,
+  STAT_TYPE,
+  TeamStats,
+} from 'types';
 import { GameStatsService } from '../../game-stats/game-stats.service';
 import { GameStatsRepository } from '../../game-stats/game-stats-repositories/game-stats-repository.interface';
 import { DiscrepanciesService } from '../discrepancies.service';
-import { DISCREPANCIES_TYPE } from '../dto/discrepancies.dto';
 
 const MOCKED_GAME_ID = faker.string.uuid();
 

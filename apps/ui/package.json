@@ -10,8 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/base": "^5.0.0-beta.11",
+    "@mui/material": "^5.14.5",
+    "@mui/x-data-grid": "^6.11.1",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "sort-by": "^1.2.0",
+    "swr": "^2.2.1",
+    "types": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
@@ -19,9 +30,12 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.15",
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.4.27",
+    "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   }
