@@ -14,7 +14,7 @@ export const DiscrepanciesFilterDropdown = (props: DiscrepanciesFilterDropdownPr
         <InputLabel id="team-id">{props.labelName}</InputLabel>
         <Select
           labelId="team-id"
-          id="demo-simple-select"
+          id="filter-select"
           value={props.filterId}
           label={props.labelName}
           onChange={props.handleIdFilterChanged}
