@@ -7,6 +7,7 @@ import { toBaseRows } from '../mappers/discrepancies-data-grid.mapper';
 import { DiscrepanciesFilterDropdown } from '../components/discrepancies-filter-dropdown.component';
 import { DiscrepanciesActionsPanel } from '../components/discrepancies-actions-panel.component';
 import { DiscrepanciesDataGrid } from '../components/discrepancies-data-grid.component';
+import { useDiscrepanciesIgnore } from '../hooks/use-discrepancies-ignore.hook';
 
 const GAME_DISCREPANCIES_COLUMNS: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 50 },
@@ -46,11 +47,16 @@ const GAME_DISCREPANCIES_COLUMNS: GridColDef[] = [
 export const GameDiscrepancies = () => {
   const LABEL_NAME = 'Game ID';
   const { discrepancies } = useDiscrepancies<GameDiscrepancy>('GAME');
-  const { filterId, filterIds, handleIdFilterChanged, discrepanciesToShow } =
+  const { filterId, filterIds, handleIdFilterChanged, filteredDiscrepancies } =
     useDiscrepanciesFilter<GameDiscrepancy>(
       discrepancies,
       useCallback((discrepancy: GameDiscrepancy) => discrepancy.meta.gameId, []),
     );
+
+  const { handleIgnore, setIgnoreSelectedIds, discrepanciesToShow } = useDiscrepanciesIgnore(
+    filteredDiscrepancies,
+    useCallback(discrepancies => toBaseRows(discrepancies), []),
+  );
 
   return (
     discrepancies && (
@@ -62,12 +68,12 @@ export const GameDiscrepancies = () => {
           labelName={LABEL_NAME}
         />
         <DiscrepanciesDataGrid
-          rows={toBaseRows(discrepanciesToShow)}
+          rows={discrepanciesToShow}
           columns={GAME_DISCREPANCIES_COLUMNS}
-          onRowSelected={selectedRows => console.log(selectedRows)}
+          onRowSelected={selectedRows => setIgnoreSelectedIds(selectedRows as number[])}
         />
         <DiscrepanciesActionsPanel
-          handleIgnore={() => alert('ignored')}
+          handleIgnore={handleIgnore}
           handleResolve={() => alert('resolved')}
         />
       </>

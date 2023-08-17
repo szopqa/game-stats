@@ -129,7 +129,7 @@ test('should initialize with default values set to team ids when using to filter
     'ba27615c-07df-41f0-864b-332575f744f2',
     '344e408b-846e-44ac-b491-7802ab0f7af0',
   ]);
-  expect(result.current.discrepanciesToShow).toEqual(mockTeamDiscrepancies);
+  expect(result.current.filteredDiscrepancies).toEqual(mockTeamDiscrepancies);
 });
 
 test('should initialize with default values set to game ids when using to player game discrepancies', () => {
@@ -142,7 +142,7 @@ test('should initialize with default values set to game ids when using to player
 
   expect(result.current.filterId).toBe('All');
   expect(result.current.filterIds).toEqual(['All', '15adf794-5630-4dc4-b0e7-f8d437b585b1']);
-  expect(result.current.discrepanciesToShow).toEqual(mockedGameDiscrepancies);
+  expect(result.current.filteredDiscrepancies).toEqual(mockedGameDiscrepancies);
 });
 
 test('should initialize with default values set to player ids when using to filter player discrepancies', () => {
@@ -159,10 +159,10 @@ test('should initialize with default values set to player ids when using to filt
     'e11a2815-8f31-44b0-8c37-64240bcbc059',
     '713daff7-86cc-4283-91a8-1579c3f58f59',
   ]);
-  expect(result.current.discrepanciesToShow).toEqual(mockPlayerDiscrepancies);
+  expect(result.current.filteredDiscrepancies).toEqual(mockPlayerDiscrepancies);
 });
 
-test('should handle filtering by updating filterId and discrepanciesToShow on filter change', () => {
+test('should handle filtering by updating filterId and filteredDiscrepancies on filter change', () => {
   // given
   const NEW_FILTER = 'ba27615c-07df-41f0-864b-332575f744f2';
   const { result } = renderHook(() =>
@@ -173,7 +173,7 @@ test('should handle filtering by updating filterId and discrepanciesToShow on fi
   );
 
   expect(result.current.filterId).toBe('All');
-  expect(result.current.discrepanciesToShow).toEqual([...mockTeamDiscrepancies]);
+  expect(result.current.filteredDiscrepancies).toEqual([...mockTeamDiscrepancies]);
   expect(result.current.filterIds).toEqual([
     'All',
     NEW_FILTER,
@@ -189,5 +189,5 @@ test('should handle filtering by updating filterId and discrepanciesToShow on fi
 
   // Check updated values
   expect(result.current.filterId).toBe(NEW_FILTER);
-  expect(result.current.discrepanciesToShow).toEqual([mockTeamDiscrepancies[0]]);
+  expect(result.current.filteredDiscrepancies).toEqual([mockTeamDiscrepancies[0]]);
 });

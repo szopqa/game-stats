@@ -7,6 +7,7 @@ import { DiscrepanciesFilterDropdown } from '../components/discrepancies-filter-
 import { DiscrepanciesActionsPanel } from '../components/discrepancies-actions-panel.component';
 import { DiscrepanciesDataGrid } from '../components/discrepancies-data-grid.component';
 import { GridColDef } from '@mui/x-data-grid';
+import { useDiscrepanciesIgnore } from '../hooks/use-discrepancies-ignore.hook';
 
 const PLAYER_DISCREPANCIES_COLUMNS: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 50 },
@@ -56,11 +57,16 @@ const PLAYER_DISCREPANCIES_COLUMNS: GridColDef[] = [
 export const PlayerDiscrepancies = () => {
   const LABEL_NAME = 'Player ID';
   const { discrepancies } = useDiscrepancies<PlayerDiscrepancy>('PLAYER');
-  const { filterId, filterIds, handleIdFilterChanged, discrepanciesToShow } =
+  const { filterId, filterIds, handleIdFilterChanged, filteredDiscrepancies } =
     useDiscrepanciesFilter<PlayerDiscrepancy>(
       discrepancies,
       useCallback((discrepancy: PlayerDiscrepancy) => discrepancy.meta.playerId, []),
     );
+
+  const { handleIgnore, setIgnoreSelectedIds, discrepanciesToShow } = useDiscrepanciesIgnore(
+    filteredDiscrepancies,
+    useCallback(discrepancies => toPlayerRows(discrepancies), []),
+  );
 
   return (
     discrepancies && (
@@ -72,12 +78,12 @@ export const PlayerDiscrepancies = () => {
           labelName={LABEL_NAME}
         />
         <DiscrepanciesDataGrid
-          rows={toPlayerRows(discrepanciesToShow)}
+          rows={discrepanciesToShow}
           columns={PLAYER_DISCREPANCIES_COLUMNS}
-          onRowSelected={selectedRows => console.log(selectedRows)}
+          onRowSelected={selectedRows => setIgnoreSelectedIds(selectedRows as number[])}
         />
         <DiscrepanciesActionsPanel
-          handleIgnore={() => alert('ignored')}
+          handleIgnore={handleIgnore}
           handleResolve={() => alert('resolved')}
         />
       </>

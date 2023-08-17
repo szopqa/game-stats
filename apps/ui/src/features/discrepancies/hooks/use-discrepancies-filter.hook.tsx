@@ -23,10 +23,10 @@ export const useDiscrepanciesFilter = <
     setFilterId(event.target.value as string);
   };
 
-  const [discrepanciesToShow, setDiscrepanciesToShow] = useState<T[]>(discrepancies ?? []);
+  const [filteredDiscrepancies, seFilteredDiscrepancies] = useState<T[]>(discrepancies ?? []);
 
   useEffect(() => {
-    setDiscrepanciesToShow(
+    seFilteredDiscrepancies(
       filterId === ALL
         ? discrepancies ?? []
         : discrepancies?.filter(discrepancy => idSelector(discrepancy) === filterId) ?? [],
@@ -37,6 +37,6 @@ export const useDiscrepanciesFilter = <
     handleIdFilterChanged,
     filterId,
     filterIds,
-    discrepanciesToShow,
+    filteredDiscrepancies,
   };
 };

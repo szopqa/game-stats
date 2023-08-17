@@ -8,7 +8,7 @@ type DiscrepanciesActionsPanelProps = {
 export const DiscrepanciesActionsPanel = (props: DiscrepanciesActionsPanelProps) => {
   return (
     <>
-      <div className="flex flex-row justify-end space-x-8">
+      <div className="flex flex-row justify-end space-x-8 mt-8">
         <Button variant="outlined" onClick={props.handleIgnore}>
           Ignore
         </Button>

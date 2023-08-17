@@ -7,6 +7,7 @@ import { DiscrepanciesFilterDropdown } from '../components/discrepancies-filter-
 import { DiscrepanciesActionsPanel } from '../components/discrepancies-actions-panel.component';
 import { DiscrepanciesDataGrid } from '../components/discrepancies-data-grid.component';
 import { GridColDef } from '@mui/x-data-grid';
+import { useDiscrepanciesIgnore } from '../hooks/use-discrepancies-ignore.hook';
 
 const TEAM_DISCREPANCIES_COLUMNS: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 50 },
@@ -51,11 +52,16 @@ const TEAM_DISCREPANCIES_COLUMNS: GridColDef[] = [
 export const TeamDiscrepancies = () => {
   const LABEL_NAME = 'Team ID';
   const { discrepancies } = useDiscrepancies<TeamDiscrepancy>('TEAM');
-  const { filterId, filterIds, handleIdFilterChanged, discrepanciesToShow } =
+  const { filterId, filterIds, handleIdFilterChanged, filteredDiscrepancies } =
     useDiscrepanciesFilter<TeamDiscrepancy>(
       discrepancies,
       useCallback((discrepancy: TeamDiscrepancy) => discrepancy.meta.teamId, []),
     );
+
+  const { handleIgnore, setIgnoreSelectedIds, discrepanciesToShow } = useDiscrepanciesIgnore(
+    filteredDiscrepancies,
+    useCallback(discrepancies => toTeamRows(discrepancies), []),
+  );
 
   return (
     discrepancies && (
@@ -67,12 +73,12 @@ export const TeamDiscrepancies = () => {
           labelName={LABEL_NAME}
         />
         <DiscrepanciesDataGrid
-          rows={toTeamRows(discrepanciesToShow)}
+          rows={discrepanciesToShow}
           columns={TEAM_DISCREPANCIES_COLUMNS}
-          onRowSelected={selectedRows => console.log(selectedRows)}
+          onRowSelected={selectedRows => setIgnoreSelectedIds(selectedRows as number[])}
         />
         <DiscrepanciesActionsPanel
-          handleIgnore={() => alert('ignored')}
+          handleIgnore={handleIgnore}
           handleResolve={() => alert('resolved')}
         />
       </>
