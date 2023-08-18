@@ -7,8 +7,8 @@
 1. `nvm use`
 2. `npm i`
 3. `npm run dev`
-4. Swagger is available at `http://localhost:3000/api`
-5. App is available at `http://localhost:5173`
+4. App is available at `http://localhost:5173`
+5. Swagger is available at `http://localhost:3000/api`
 
 ### Running unit tests
 
@@ -19,15 +19,16 @@
 ### Assumptions
 
 - "The view of all discrepancies for the team" mans only the discrepancies related to team stats, not their players, same goes for the game
-- if one of the sources does not give us a value for given metric, we store null as a stat value
-- As I am not sure how the stats/discrepancies data is going to be used and what might be the full requirements I decided to go with in memory db
+- If one of the sources does not give us a value for given metric, we store null as a stat value, which is then also treated as a discrepancy
+- As I am not sure how the stats/discrepancies data is going to be used and what might be the full requirements I decided to go with in memory db, as it fits perfectly for the task I was given
+- Ignoring discrepancies means to ignore individual metric for one of the sources, not all discrepancies for the same source
 
 ### Architecture
 
 1. `game-stats-service` and providers are responsible for aggregating and retrieving stats from external services
 2. It then normalizes all possible formats using supported strategies and stores the statistics
 3. Every statistic has its own type and values that it describes
-4. Discrepancies are then being calculated (ad hoc for the time being) based on provided criteria
+4. Discrepancies are then being calculated (ad hoc for the time being) based on provided criteria based on persisted game stats
 
 ### Generating discrepancies from game stats
 

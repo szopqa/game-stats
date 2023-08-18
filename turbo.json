@@ -4,15 +4,10 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**", "build/**"]
     },
     "test:unit": {
-      "inputs": [
-        "src/**/*.js",
-        "src/**/*.ts",
-        "src/**/*.jsx",
-        "src/**/*.tsx"
-      ],
+      "inputs": ["src/**/*.js", "src/**/*.ts", "src/**/*.jsx", "src/**/*.tsx"],
       "cache": false
     },
     "lint": {},

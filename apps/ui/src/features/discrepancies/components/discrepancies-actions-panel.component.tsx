@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import { IS_RESOLVE_FEATURE_AVAILABLE } from '../../../config';
 
 type DiscrepanciesActionsPanelProps = {
   handleIgnore: () => void;
@@ -12,9 +13,11 @@ export const DiscrepanciesActionsPanel = (props: DiscrepanciesActionsPanelProps)
         <Button variant="outlined" onClick={props.handleIgnore}>
           Ignore
         </Button>
-        <Button variant="outlined" onClick={props.handleResolve}>
-          Resolve
-        </Button>
+        {IS_RESOLVE_FEATURE_AVAILABLE && (
+          <Button variant="outlined" onClick={props.handleResolve}>
+            Resolve
+          </Button>
+        )}
       </div>
     </>
   );

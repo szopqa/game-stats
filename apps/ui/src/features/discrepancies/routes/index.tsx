@@ -7,7 +7,7 @@ import { PlayerDiscrepancies } from './player-discrepancies';
 export const DiscrepanciesRouter = () => {
   return (
     <Routes>
-      <Route path="/all" element={<AllDiscrepancies />} />
+      <Route path="/" element={<AllDiscrepancies />} />
       <Route path="/game" element={<GameDiscrepancies />} />
       <Route path="/team" element={<TeamDiscrepancies />} />
       <Route path="/player" element={<PlayerDiscrepancies />} />
