@@ -96,18 +96,22 @@ const MOCKED_STATS_FOR_PLAYER: PlayerStats[] = [
 describe('DiscrepanciesService', () => {
   let service: DiscrepanciesService;
   const mockedGameStatsInMemoryRepository = new MockedGameStatsInMemoryRepository();
-  mockedGameStatsInMemoryRepository.seed([
-    ...MOCKED_STATS_FOR_GAME,
-    ...MOCKED_STATS_FOR_TEAM,
-    ...MOCKED_STATS_FOR_PLAYER,
-  ]);
 
   beforeEach(async () => {
+    mockedGameStatsInMemoryRepository.seed([
+      ...MOCKED_STATS_FOR_GAME,
+      ...MOCKED_STATS_FOR_TEAM,
+      ...MOCKED_STATS_FOR_PLAYER,
+    ]);
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DiscrepanciesService,
         GameStatsService,
-        { provide: GameStatsRepository, useValue: mockedGameStatsInMemoryRepository },
+        {
+          provide: GameStatsRepository,
+          useValue: mockedGameStatsInMemoryRepository,
+        },
       ],
     }).compile();
 
@@ -120,7 +124,9 @@ describe('DiscrepanciesService', () => {
 
     // when
     for (const statType of STAT_TYPES) {
-      const discrepancies = await service.getDiscrepancies(statType, { gameId: MOCKED_GAME_ID });
+      const discrepancies = await service.getDiscrepancies(statType, {
+        gameId: MOCKED_GAME_ID,
+      });
 
       // then
       expect(discrepancies.every(discrepancy => discrepancy.meta.statType === statType)).toBe(true);
@@ -134,7 +140,9 @@ describe('DiscrepanciesService', () => {
     const statType = STAT_TYPE.GAME;
 
     // when
-    const discrepancies = await service.getDiscrepancies(statType, { gameId: MOCKED_GAME_ID });
+    const discrepancies = await service.getDiscrepancies(statType, {
+      gameId: MOCKED_GAME_ID,
+    });
 
     // then
     expect(discrepancies.every(discrepancy => discrepancy.meta.statType === statType)).toBe(true);
@@ -166,7 +174,9 @@ describe('DiscrepanciesService', () => {
     const statType = STAT_TYPE.TEAM;
 
     // when
-    const discrepancies = await service.getDiscrepancies(statType, { gameId: MOCKED_GAME_ID });
+    const discrepancies = await service.getDiscrepancies(statType, {
+      gameId: MOCKED_GAME_ID,
+    });
 
     // then
     expect(discrepancies.every(discrepancy => discrepancy.meta.statType === statType)).toBe(true);
@@ -225,7 +235,9 @@ describe('DiscrepanciesService', () => {
     const statType = STAT_TYPE.PLAYER;
 
     // when
-    const discrepancies = await service.getDiscrepancies(statType, { gameId: MOCKED_GAME_ID });
+    const discrepancies = await service.getDiscrepancies(statType, {
+      gameId: MOCKED_GAME_ID,
+    });
 
     // then
     expect(discrepancies.every(discrepancy => discrepancy.meta.statType === statType)).toBe(true);
@@ -302,5 +314,64 @@ describe('DiscrepanciesService', () => {
       true,
     );
     expect(discrepancies.length).toBe(5);
+  });
+
+  it('should return discrepancy when one of the sources provides value for given stat and the other one does not (stat value is null)', async () => {
+    // given
+    const statType = STAT_TYPE.TEAM;
+    const MOCKED_STATS_FOR_TEAM: TeamStats[] = [
+      {
+        gameId: MOCKED_GAME_ID,
+        sourceId: GAME_STATS_PROVIDER.EXTERNAL_A,
+        statType: STAT_TYPE.TEAM,
+        teamId: MOCKED_TEAM_ID,
+        stats: {
+          receivingReceptions: 27,
+          receivingYards: 239,
+          rushTouchdowns: 0,
+          rushYards: 78,
+          rushAttempts: 39,
+        },
+      },
+      {
+        gameId: MOCKED_GAME_ID,
+        sourceId: GAME_STATS_PROVIDER.SPORT_RADAR,
+        statType: STAT_TYPE.TEAM,
+        teamId: MOCKED_TEAM_ID,
+        stats: {
+          receivingReceptions: 27,
+          receivingYards: 239,
+          rushTouchdowns: 0,
+          rushYards: 78,
+          rushAttempts: null,
+        },
+      },
+    ];
+
+    mockedGameStatsInMemoryRepository.seed([...MOCKED_STATS_FOR_TEAM]);
+    // when
+
+    // when
+    const discrepancies = await service.getDiscrepancies(statType, {
+      gameId: MOCKED_GAME_ID,
+    });
+
+    // then
+    expect(discrepancies.length).toBe(1);
+    expect(discrepancies.every(discrepancy => discrepancy.meta.statType === statType)).toBe(true);
+    const [discrepancy] = discrepancies;
+    expect(discrepancy.statName).toBe('rushAttempts');
+    expect(discrepancy.values).toEqual(
+      expect.arrayContaining([
+        {
+          sourceId: GAME_STATS_PROVIDER.SPORT_RADAR,
+          value: null,
+        },
+        {
+          sourceId: GAME_STATS_PROVIDER.EXTERNAL_A,
+          value: 39,
+        },
+      ]),
+    );
   });
 });
