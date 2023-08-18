@@ -10,25 +10,26 @@
 4. App is available at `http://localhost:5173`
 5. Swagger is available at `http://localhost:3000/api`
 
-### Running unit tests
+### Running tests
 
 1. `npm run test:unit`
 
-## General idea (v1)
+## General idea
 
 ### Assumptions
 
-- "The view of all discrepancies for the team" mans only the discrepancies related to team stats, not their players, same goes for the game
+- "The view of all discrepancies for the team" means only the discrepancies related to team stats, not their players, same goes for the game
 - If one of the sources does not give us a value for given metric, we store null as a stat value, which is then also treated as a discrepancy
-- As I am not sure how the stats/discrepancies data is going to be used and what might be the full requirements I decided to go with in memory db, as it fits perfectly for the task I was given
-- Ignoring discrepancies means to ignore individual metric for one of the sources, not all discrepancies for the same source
+- As I am not sure how the stats/discrepancies data is going to be used and what might be the full requirements I decided to go with in-memory db, as it fits the task I was given
+- Ignoring discrepancies means to ignore individual metric for one of the sources, not all discrepancies for the same stat
 
-### Architecture
+### Solution overview
 
 1. `game-stats-service` and providers are responsible for aggregating and retrieving stats from external services
-2. It then normalizes all possible formats using supported strategies and stores the statistics
+2. Then they normalize all possible formats using supported strategies and persists the statistics
 3. Every statistic has its own type and values that it describes
-4. Discrepancies are then being calculated (ad hoc for the time being) based on provided criteria based on persisted game stats
+4. Discrepancies are then being calculated (ad hoc for the time being) based on provided criteria and on persisted game stats
+5. Discrepancies can be filtered on the UI using either top dropdown or applying filters on specific columns
 
 ### Generating discrepancies from game stats
 

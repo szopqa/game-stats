@@ -33,6 +33,7 @@ export const DiscrepanciesDataGrid = (props: DiscrepanciesDataGrid) => {
           pageSizeOptions={[10]}
           disableRowSelectionOnClick
           checkboxSelection
+          disableColumnSelector
         />
       </Box>
     </>
